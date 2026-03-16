@@ -101,7 +101,19 @@ The scripts are numbered in the order they should be executed:
 
 ---
 
-### 6_analyze_BCR.R - BCR and TCR Clonotype Overlap Analysis
+### 6. `12_addclono_reanalyzeB4829.R`
+**Purpose:** B cell re-analysis with BCR clonotype integration.  
+- Subsets B cells, removes doublet clusters, re-clusters
+- Annotates subtypes: NBC, Activated NBC, csNBC, IgA+/IgG+ PC, PB (Cycling)
+- Loads BCR filtered contig annotations and merges clonotype info
+- Visualizes top clonotypes on UMAP (by proportion, by rank)
+- Stacked bar plots of B cell composition by clonal expansion status
+- Proportion analysis across timepoints with statistical comparisons
+- CD19 expression analysis across B cell subtypes
+
+------
+
+### 7_analyze_BCR.R - BCR and TCR Clonotype Overlap Analysis
 
 **Purpose:** This script analyzes B-cell receptor (BCR) and T-cell receptor (TCR) clonotype data from 10X VDJ sequencing to assess clonal overlap across treatment timepoints.
 
@@ -119,7 +131,7 @@ The scripts are numbered in the order they should be executed:
 
 ---
 
-### 7_read_cart_analyze_cart.R - CAR-T Patient Data Processing and Integration
+### 8_read_cart_analyze_cart.R - CAR-T Patient Data Processing and Integration
 
 **Purpose:** This script reads, processes, and integrates external CD19 CAR-T cell therapy scRNA-seq data (from Wilheim et al., GEO: GSE263931) with the A-319 reference dataset to enable cross-treatment comparisons.
 
@@ -139,7 +151,7 @@ The scripts are numbered in the order they should be executed:
 
 ---
 
-### 8_CART_IFN_do_CART_score.R - IFN Signature Scoring for CAR-T T Cells
+### 9_CART_IFN_do_CART_score.R - IFN Signature Scoring for CAR-T T Cells
 
 **Purpose:** This script computes IFN activity scores specifically in the T cell compartment of CAR-T treated patients and compares IFN levels between pre- and post-treatment timepoints.
 
@@ -156,6 +168,42 @@ The scripts are numbered in the order they should be executed:
 **Primary output:** `CART.t.only.with.AUC.IFN.rds`
 
 ---
+
+
+### 10. `10_Remnant_D28_Cells.R`
+**Purpose:** T cell and NK cell proportion and expression analysis.  
+- Calculates cycling CD4/CD8/NK proportions relative to total cells
+- Global T-cell DE (D28 vs Baseline) with ISG gene highlighting
+- Granzyme/activation signature scoring using AUCell
+- Remnant plasma B cell DE at D28 vs Baseline
+- CD3E expression visualization across T cell subtypes
+
+---
+
+### 11. `11_AnalyzeMyeloid.R`
+**Purpose:** Comprehensive myeloid cell analysis from scRNA-seq data.  
+- Loads myeloid Seurat objects and subsets non-neutrophil/monocyte cells
+- Performs label transfer from a tonsil myeloid reference atlas (Seurat TransferData)
+- Manual cell type annotation across multiple rounds of clustering
+- Merges all myeloid cells, removes T/B contamination, re-clusters
+- Differential expression: cell-type-defining markers and temporal changes (Base vs M3)
+- IFN gene signature scoring using AUCell (multiple published IFN gene sets)
+- Neutrophil sub-analysis: IFI+/Canonical/Immature/Progenitor subtypes, cell cycle scoring
+- Monocyte sub-analysis: IFI+/Classical/Non-Classical/HLA-MARCO-hi subtypes
+- Proportion analysis with paired/unpaired statistical comparisons
+
+---
+
+### 12. `12_FLOW_Anslysis.R`
+**Purpose:** Flow cytometry B cell subset analysis over time.  
+- Visualizes naive B, switched/unswitched memory B, and plasmablast counts
+- Dose-stratified and overall summary statistics (mean, SD, min/max)
+- Naive B / Switched memory B ratio analysis (log-transformed)
+- Patient P5 outlier comparison
+- Paired t-tests comparing naive vs switched memory B cells at each timepoint
+
+---
+
 
 ## Dependencies
 
@@ -174,5 +222,5 @@ The scripts are numbered in the order they should be executed:
 ## Data Availability
 
 - Processed Seurat objects are available as an interactive Cell x Gene object at: https://cellxgene.cziscience.com/collections/6c147b03-08e4-4bb7-afb7-2bcc0a814b65
-- Raw sequencing data are deposited under accession number [TBD]
+- Raw sequencing data are deposited under accession number [pending]
 - CAR-T comparison data (Wilheim et al.) were obtained from GEO accession GSE263931
